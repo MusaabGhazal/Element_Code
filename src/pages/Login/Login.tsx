@@ -68,7 +68,7 @@ const LoginForm = () => {
               <div className="mb-2.5">
                 <label className="">
                   <div className="mb-1.5 text-sm text-gray-600  font-semibold">
-                    Email
+                    Email t
                   </div>
                   <input
                     type="text"
