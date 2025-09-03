@@ -1,30 +1,118 @@
-import { SidebarItem } from "./SideBarItem";
-import type { MenuItem } from "../../types/types";
+import React, { Suspense } from "react";
+import { SideBarItemsGroup } from "./SideBarItem";
+import { AppRoutes } from "../../routes/AppRoutes";
+import { DarkModeToggle } from "../DarkModeToggle/DarkModeToggle";
+import { ThemeModeIcon } from "../../context/ThemeProvider";
+import FullScreenSpinner from "../FullScreenSpinner";
 
-export interface SidebarProps {
-  items: MenuItem[];
-}
+const LogoWithTextIcon = React.lazy(
+  () => import("../../assets/svg/elements.svg?react")
+);
 
-export const Sidebar: React.FC<SidebarProps> = ({ items }) => {
+export const SideBar: React.FC<{ isClosed: boolean }> = ({ isClosed }) => {
   return (
-    <div className="h-full flex-shrink-0 bg-primary-blue text-white">
-      <aside className={"md:w-[250px] w-[100px]"}>
-        <nav className="w-full flex flex-col h-full">
-          <header className="flex flex-col gap-5 items-start justify-between py-7 px-2">
-            <div className="font-semibold text-center tracking-wide pb-1">
-                <div className="md:px-4 px-0 md:text-[22px] text-[16px]">Decision Manager</div>
-            </div>
-            <div className="h-[1px] bg-[#D2D6DB] w-full"></div>
-          </header>
-          <div className="flex-1 overflow-y-auto mt-8">
-            <ul>
-              {items.map((item, idx) => (
-                <SidebarItem key={`${item.pageTitle}-${idx}`} item={item} />
-              ))}
-            </ul>
+    <>
+      <div
+        className={`h-screen flex flex-col justify-between gap-2 transition-all duration-300 ease-in-out dark:bg-darkTheme dark:border-gray-800 py-[20px] ${
+          isClosed ? " w-[110px] ps-[33px] pe-[34px]" : " w-64 px-4"
+        }`}
+      >
+        <div className={`flex flex-col gap-2`}>
+          <div
+            className={`flex flex-col justify-between gap-2 overflow-hidden`}
+          >
+            <Suspense fallback={<FullScreenSpinner />}>
+              <LogoWithTextIcon
+                className={`text-black dark:text-white flex self-baseline transition-all duration-300 ${
+                  isClosed ? "w-[44px] h-[50px]" : "w-[212px] h-[50px]"
+                }`}
+              />
+            </Suspense>
           </div>
-        </nav>
-      </aside>
-    </div>
+          <div
+            className={`h-[1px] bg-gray-950/10 mb-3 transition-all duration-300 dark:bg-gray-800 ${
+              isClosed ? " -mx-8" : " -mx-4"
+            }`}
+          ></div>
+          <div className="pb-3">
+            <SideBarItemsGroup
+              items={[
+                {
+                  pageTitle: "Dashboard",
+                  text: "Dashboard",
+                  icon: "dashboard",
+                  url: AppRoutes.home,
+                },
+              ]}
+            />
+          </div>
+          <div className="pb-3">
+            <span
+              className={`block text-gray-950/40 dark:text-gray-600 text-sm py-1 px-3 h-7 transition-all duration-300 mb-1 ${
+                isClosed ? " translate-x-[-50%]" : " translate-x-0"
+              }`}
+            >
+              Developer
+            </span>
+            <SideBarItemsGroup
+              items={[
+                {
+                  pageTitle: "التسجيل اليومي للطلبة",
+                  text: "التسجيل اليومي للطلبة",
+                  icon: "settings",
+                  url: "/studentsDaily",
+                },
+              ]}
+            />
+          </div>
+          <div className="pb-3">
+            <span
+              className={`block text-gray-950/40 dark:text-gray-600 text-sm py-1 px-3 h-7 transition-all duration-300 mb-1 ${
+                isClosed ? " translate-x-[-40%]" : " translate-x-0"
+              }`}
+            >
+              Account
+            </span>
+
+            <div
+              className={`flex rounded-lg border-s-transparent transition-all ease-in-out cursor-pointer relative z-10 text-gray-700 overflow-hidden justify-between duration-700 mt-1 px-2 ${
+                isClosed
+                  ? " translate-x-[-10%] h-20"
+                  : " items-center translate-x-0 h-9"
+              }`}
+            >
+              <div
+                className={`flex duration-700 transition-all ${
+                  isClosed ? "ms-[5px] mt-1 " : "ms-[1px] items-center "
+                }`}
+              >
+                <span className="m-1">
+                  <ThemeModeIcon className="text-gray-900 dark:text-gray-500" />
+                </span>
+
+                <span
+                  className={`overflow-hidden transition-all ease-in-out whitespace-nowrap text-sm font-readexProBold700 w-fit ml-[5px] font-sans hidden md:inline dark:text-white ${
+                    isClosed ? "opacity-0 w-0 h-0" : ""
+                  }`}
+                >
+                  Dark Mode
+                </span>
+              </div>
+              <div
+                className={`transition-transform duration-300 ease-in-out transform ${
+                  isClosed
+                    ? "translate-x-[-108px] translate-y-[44px]"
+                    : "translate-x-0 translate-y-0"
+                }`}
+              >
+                <DarkModeToggle />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
+
+export default SideBar;

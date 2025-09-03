@@ -25,3 +25,15 @@ export interface MenuItem {
   icon?: string;
   url?: string;
 }
+
+export interface Student{
+  id: number;
+  name: string;
+}
+
+export interface Section {
+  id: number;
+  teacherId: number;
+  semesterId: number;
+  fatraId: number;
+}

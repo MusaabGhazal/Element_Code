@@ -1,9 +1,8 @@
 import { useState, useContext } from "react";
 import { toast } from "react-toastify";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../context/Context";
 import type { FormLoginValues } from "../../types/types";
 import { Controller, useForm } from "react-hook-form";
-import LogoWithText from "../../assets/svg/logo_with_text.svg?react";
 import FullScreenSpinner from "/src/components/FullScreenSpinner";
 
 const LoginForm = () => {
@@ -54,9 +53,6 @@ const LoginForm = () => {
 
         <div className=" flex-1 flex flex-col  justify-center items-center relative w-1/2">
           <div className="w-[360px] mt-24 -ml-6">
-            <div className="mb-10">
-              <LogoWithText className=" dark:text-white" />
-            </div>
             <div className="mb-8">
               <div className="font-bold text-4xl mb-3">LOGIN</div>
               <div className="text-gray-600">
