@@ -208,14 +208,14 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
     <div className={`flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 ${language === "Arabic" && " flex-row-reverse"} `}>
       <Suspense fallback={<FullScreenSpinner />}>
         <SideBarIcon
-          className="text-black dark:text-white cursor-pointer"
+          className={`text-black dark:text-white cursor-pointer ${language === "Arabic" && " ml-4"}`}
           onClick={onSidebarIconClick}
         />
       </Suspense>
 
       <Link
         to="/"
-        className={`text-gray-950/40 dark:text-gray-400 hover:underline ${language === "Arabic" && " mr-4"}`}
+        className={`text-gray-950/40 dark:text-gray-400 hover:underline`}
       >
         Dashboard
       </Link>
