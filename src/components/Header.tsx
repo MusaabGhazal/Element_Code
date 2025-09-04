@@ -1,6 +1,6 @@
 import React, { useContext, useState, Suspense } from "react";
 import { useLocation, Link } from "react-router-dom";
-import { AuthContext } from "../context/Context";
+import { AuthContext, SystemLanguage } from "../context/Context";
 import { useHeader } from "./useHeader";
 import LogoutPopupJsx from "./Popup/LogoutPopupJsx";
 import PopupLayout from "./Popup/LayoutPopup";
@@ -64,24 +64,26 @@ const Header: React.FC<HeaderProps> = ({ onSidebarIconClick }) => {
     }
   };
 
+  const { language } = useContext(SystemLanguage);
+
   return (
-    <header className="flex items-center justify-between px-6 py-[20px] w-full border-b bg-white dark:bg-darkTheme dark:border-gray-800">
+    <header className={`flex items-center justify-between px-6 py-[20px] w-full border-b bg-white dark:bg-darkTheme dark:border-gray-800 ${language === "Arabic" && " flex-row-reverse"} `}>
       {isLoading && <FullScreenSpinner />}
       {/* Left: Breadcrumbs */}
       <Breadcrumb onSidebarIconClick={onSidebarIconClick} />
       {/* Right: Actions */}
-      <div className="flex items-start gap-5">
+      <div className={`flex items-start gap-5 ${language === "Arabic" && " flex-row-reverse"}`}>
         {/* Search Bar */}
-        <div className="relative hidden md:flex items-center">
+        <div className={`relative hidden md:flex items-center`}>
           <Suspense fallback={<FullScreenSpinner />}>
-            <SearchIcon className="absolute left-3 text-black/20 dark:text-gray-400 cursor-pointer " />
+            <SearchIcon className={`absolute text-black/20 dark:text-gray-400 cursor-pointer ${language === "Arabic" ? " right-2" : "left-3"}`} />
           </Suspense>
           <input
             type="text"
-            placeholder="Search"
-            className="pl-8 pr-9 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white placeholder:text-gray-400 focus:outline-none w-[160px]"
+            placeholder={`${language === "Arabic" ? " ابحث" : "Search"}`}
+            className={`pl-8 pr-9 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-sm text-gray-800 dark:text-white placeholder:text-gray-400 focus:outline-none w-[160px] ${language === "Arabic" && " rtl"}`}
           />
-          <kbd className="absolute right-2 text-xs text-black/20 dark:text-white">
+          <kbd className={`absolute text-xs text-black/20 dark:text-white ${language === "Arabic" ? " left-3" : "right-2"}`}>
             ⌘/
           </kbd>
         </div>
@@ -90,10 +92,10 @@ const Header: React.FC<HeaderProps> = ({ onSidebarIconClick }) => {
           <ThemeModeIcon className="text-black dark:text-white" />
         </div>
         {/* Icons */}
-        <div ref={headerRef} className="relative flex items-center space-x-4">
+        <div ref={headerRef} className={`relative flex items-center space-x-4 ${language === "Arabic" && " flex-row-reverse"}`}>
           {/* Profile */}
           <div
-            className="flex items-center space-x-2 cursor-pointer"
+            className={`flex items-center space-x-2 cursor-pointer ${language === "Arabic" && " flex-row-reverse"}`}
             onClick={() => toggleDropdown("user")}
           >
             <img
@@ -101,9 +103,9 @@ const Header: React.FC<HeaderProps> = ({ onSidebarIconClick }) => {
               alt="Avatar"
               className="w-8 h-8 rounded-full"
             />
-            <div className="text-sm">
+            <div className={`text-sm ${language === "Arabic" && " text-end"}`}>
               <div className="font-medium text-gray-800 dark:text-white text-[12px]">
-                Ahmed Abdullah
+                مصعب محمد
               </div>
               <div className="text-gray-500 dark:text-gray-400 text-[10px] leading-[18px] w-[123px] overflow-hidden">
                 a.abdullah@company.com
@@ -113,7 +115,7 @@ const Header: React.FC<HeaderProps> = ({ onSidebarIconClick }) => {
               <div className="absolute top-[34px] right-[-20px] mt-2 mr-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg py-2 px-2 w-52 z-10">
                 <div className="flex flex-col space-y-2">
                   <div className="flex items-center space-x-2">
-                    <button className="w-full flex items-center gap-2 text-sm text-gray-700 dark:text-gray-100 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-2 py-1 dark:border-gray-400 text-left">
+                    <button className={`w-full flex items-center gap-2 text-sm text-gray-700 dark:text-gray-100 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-2 py-1 dark:border-gray-400 text-left ${language === "Arabic" && " flex-row-reverse"}`}>
                       <Suspense fallback={<FullScreenSpinner />}>
                         <ProfileIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
                       </Suspense>
@@ -121,7 +123,7 @@ const Header: React.FC<HeaderProps> = ({ onSidebarIconClick }) => {
                     </button>
                   </div>
                   <div className="flex items-center space-x-2">
-                    <button className="w-full flex items-center gap-2 text-sm text-gray-700 dark:text-gray-100 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-2 py-1 dark:border-gray-400 text-left">
+                    <button className={`w-full flex items-center gap-2 text-sm text-gray-700 dark:text-gray-100 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-2 py-1 dark:border-gray-400 text-left ${language === "Arabic" && " flex-row-reverse" }`}>
                       <Suspense fallback={<FullScreenSpinner />}>
                         <SettingsIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
                       </Suspense>
@@ -135,7 +137,7 @@ const Header: React.FC<HeaderProps> = ({ onSidebarIconClick }) => {
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={handleOpenPopup}
-                    className="w-full flex items-center gap-2 text-sm text-gray-700 dark:text-gray-100 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-2 py-1 dark:border-gray-400  text-left"
+                    className={`w-full flex items-center gap-2 text-sm text-gray-700 dark:text-gray-100 bg-transparent hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md px-2 py-1 dark:border-gray-400  text-left ${language === "Arabic" && " flex-row-reverse"}`}
                   >
                     <Suspense fallback={<FullScreenSpinner />}>
                       <LogoutIcon className="w-5 h-5 text-gray-700 dark:text-gray-400" />
@@ -200,8 +202,10 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
     "edit-event": "Edit Event",
   };
 
+   const { language } = useContext(SystemLanguage);
+
   return (
-    <div className="flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400">
+    <div className={`flex items-center space-x-4 text-sm text-gray-500 dark:text-gray-400 ${language === "Arabic" && " flex-row-reverse"} `}>
       <Suspense fallback={<FullScreenSpinner />}>
         <SideBarIcon
           className="text-black dark:text-white cursor-pointer"
@@ -211,7 +215,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({
 
       <Link
         to="/"
-        className="text-gray-950/40 dark:text-gray-400 hover:underline"
+        className={`text-gray-950/40 dark:text-gray-400 hover:underline ${language === "Arabic" && " mr-4"}`}
       >
         Dashboard
       </Link>

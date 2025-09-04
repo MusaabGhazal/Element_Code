@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
-import { ThemeContext } from "../../context/Context";
+import { SystemLanguage, ThemeContext } from "../../context/Context";
 
 export const DarkModeToggle: React.FC = () => {
   const { isDarkMode, toggleDarkMode } = useContext(ThemeContext);
+  const { language } = useContext(SystemLanguage);
 
   return (
     <button
@@ -13,7 +14,12 @@ export const DarkModeToggle: React.FC = () => {
     >
       <div
         className={`w-4 h-4 rounded-full bg-white transition-transform duration-300 transform
-          ${isDarkMode ? "translate-x-4" : "translate-x-0"}`}
+          ${isDarkMode ? "translate-x-4" : "translate-x-0"}
+          ${
+            (language === "Arabic" && isDarkMode) ? "translate-x-[0px]" : "translate-x-4"
+          }
+          `}
+          
       />
     </button>
   );

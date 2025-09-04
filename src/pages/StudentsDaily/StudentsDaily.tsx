@@ -31,6 +31,7 @@ const section: Section = {
 };
 
 const StudentsDaily = () => {
+
   return (
     <div className="flex flex-col gap-2 p-6">
       students daily

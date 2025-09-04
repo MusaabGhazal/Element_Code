@@ -30,3 +30,15 @@ export const ThemeContext =
   createContext<ThemeContextType>(defaultThemeContext);
 
 export type { ThemeContextType };
+
+interface LanguageContextType {
+  language: "Arabic" | "English";
+  toggleLanguage: () => void;
+}
+
+const defaultLanguage: LanguageContextType= {
+  language: "Arabic",
+  toggleLanguage: () => {},
+}
+
+export const SystemLanguage = createContext<LanguageContextType>(defaultLanguage);
