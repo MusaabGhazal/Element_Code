@@ -3,6 +3,11 @@ import type { Section, Student } from "../../types/types";
 import { SystemLanguage } from "../../context/Context";
 import { General } from "./General/General";
 import { Diamond } from "./Diamond/Diamond";
+import { Water } from "./Water/Water";
+import { Wind } from "./Wind/Wind";
+import { Light } from "./Light/Light";
+import { Gold } from "./Gold/Gold";
+import { Iron } from "./Iron/Iron";
 
 const LogoWithTextIcon = React.lazy(
   () => import("../../assets/svg/Sun.svg?react")
@@ -215,7 +220,7 @@ ${language === "Arabic" && " flex-row-reverse"}`}
                     </div>
 
                     <div
-                      className={`flex w-[25%] hover:bg-blueGray-100 hover:dark:bg-gray-900 cursor-pointer h-[40px] px-4 py-[10px] gap-2 items-center border-r border-gray-300 dark:bg-gray-800 dark:border-gray-900 ${
+                      className={`flex w-[33%] hover:bg-blueGray-100 hover:dark:bg-gray-900 cursor-pointer h-[40px] px-4 py-[10px] gap-2 items-center border-r border-gray-300 dark:bg-gray-800 dark:border-gray-900 ${
                         currentSection === "iron"
                           ? "bg-blueGray-100 dark:bg-gray-900"
                           : "bg-white"
@@ -249,11 +254,11 @@ ${language === "Arabic" && " flex-row-reverse"}`}
                     {currentSection === "diamond" && (
                       <Diamond/>
                     )}
-                    {currentSection === "water" && <div>water</div>}
-                    {currentSection === "wind" && <div>wind</div>}
-                    {currentSection === "light" && <div>light</div>}
-                    {currentSection === "gold" && <div>gold</div>}
-                    {currentSection === "iron" && <div>iron</div>}
+                    {currentSection === "water" && <Water/>}
+                    {currentSection === "wind" && <Wind/>}
+                    {currentSection === "light" && <Light date={date}/>}
+                    {currentSection === "gold" && <Gold/>}
+                    {currentSection === "iron" && <Iron/>}
                   </div>
                 </div>
               </div>
