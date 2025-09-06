@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { surahs } from "../../../constants/Surahs";
 
 interface RecordType {
   id: number;
-  surah: string; 
+  surah: string;
   surahLabel?: string;
   fromAyah: number;
   toAyah: number;
@@ -14,6 +14,17 @@ const evaluations = [5, 4.5, 4, 3.5, 3];
 
 export const Diamond = () => {
   const [records, setRecords] = useState<RecordType[]>([]);
+
+  useEffect(() => {
+    fetch("http://localhost:5004/api/hello")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
+    useEffect(() => {
+    fetch("http://localhost:5004/api/students")
+      .then((res) => res.json())
+      .then((data) => console.log(data));
+  }, []);
 
   const [newRecord, setNewRecord] = useState<RecordType>({
     id: Date.now(),
@@ -70,9 +81,7 @@ export const Diamond = () => {
 
   const saveEdit = (id: number) => {
     if (!editingValues.surah) return alert("اختر السورة أولا");
-    if (
-      (editingValues.fromAyah ?? 0) > (editingValues.toAyah ?? 0)
-    ) {
+    if ((editingValues.fromAyah ?? 0) > (editingValues.toAyah ?? 0)) {
       return alert("تأكد أن 'من آية' أقل من أو يساوي 'إلى آية'");
     }
 
@@ -107,11 +116,21 @@ export const Diamond = () => {
         <table className="min-w-full table-fixed text-sm">
           <thead className="bg-gray-50 dark:bg-gray-800">
             <tr className="text-right">
-              <th className="px-3 py-2 border-b dark:border-gray-700">السورة</th>
-              <th className="px-3 py-2 border-b dark:border-gray-700">من آية</th>
-              <th className="px-3 py-2 border-b dark:border-gray-700">إلى آية</th>
-              <th className="px-3 py-2 border-b dark:border-gray-700">التقييم</th>
-              <th className="px-3 py-2 border-b dark:border-gray-700">إجراءات</th>
+              <th className="px-3 py-2 border-b dark:border-gray-700">
+                السورة
+              </th>
+              <th className="px-3 py-2 border-b dark:border-gray-700">
+                من آية
+              </th>
+              <th className="px-3 py-2 border-b dark:border-gray-700">
+                إلى آية
+              </th>
+              <th className="px-3 py-2 border-b dark:border-gray-700">
+                التقييم
+              </th>
+              <th className="px-3 py-2 border-b dark:border-gray-700">
+                إجراءات
+              </th>
             </tr>
           </thead>
 
@@ -154,7 +173,9 @@ export const Diamond = () => {
                     </select>
                   ) : (
                     <div className="text-sm text-gray-800 dark:text-gray-100">
-                      {rec.surahLabel || surahs.find((s) => s.value === rec.surah)?.label || rec.surah}
+                      {rec.surahLabel ||
+                        surahs.find((s) => s.value === rec.surah)?.label ||
+                        rec.surah}
                     </div>
                   )}
                 </td>
@@ -351,9 +372,9 @@ export const Diamond = () => {
 
       {/* small helper */}
       <p className="mt-3 text-xs text-gray-500 dark:text-gray-400">
-        يمكنك لاحقًا ربط الدوال (حذف، حفظ، إضافة) بالـ API الخاص بك لعمل
-        persist على الخادم.
+        يمكنك لاحقًا ربط الدوال (حذف، حفظ، إضافة) بالـ API الخاص بك لعمل persist
+        على الخادم.
       </p>
     </div>
   );
-}
+};
