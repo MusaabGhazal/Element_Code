@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { surahs } from "../../../constants/Surahs";
-import { getSheetData } from "./useDiamond";
 
 interface RecordType {
   id: number;
@@ -15,8 +14,6 @@ const evaluations = [5, 4.5, 4, 3.5, 3];
 
 export const Diamond = () => {
   const [records, setRecords] = useState<RecordType[]>([]);
-
-  getSheetData();
 
   const [newRecord, setNewRecord] = useState<RecordType>({
     id: Date.now(),
