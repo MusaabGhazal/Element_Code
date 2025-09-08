@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { surahs } from "../../../constants/Surahs";
+import { useDiamond } from "./useDiamond";
+import FullScreenSpinner from "../../FullScreenSpinner";
 
 interface RecordType {
   id: number;
@@ -14,17 +16,8 @@ const evaluations = [5, 4.5, 4, 3.5, 3];
 
 export const Diamond = () => {
   const [records, setRecords] = useState<RecordType[]>([]);
-
-  useEffect(() => {
-    fetch("http://localhost:5004/api/hello")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
-    useEffect(() => {
-    fetch("http://localhost:5004/api/students")
-      .then((res) => res.json())
-      .then((data) => console.log(data));
-  }, []);
+  const {diamondData, loadingState, addStudentData} = useDiamond();
+  console.log("data", diamondData)
 
   const [newRecord, setNewRecord] = useState<RecordType>({
     id: Date.now(),
@@ -85,6 +78,8 @@ export const Diamond = () => {
       return alert("تأكد أن 'من آية' أقل من أو يساوي 'إلى آية'");
     }
 
+    addStudentData(editingValues.surah, editingValues.surah)
+
     setRecords((prev) =>
       prev.map((r) =>
         r.id === id
@@ -109,6 +104,10 @@ export const Diamond = () => {
     setEditingId(null);
     setEditingValues({});
   };
+
+  if(loadingState === "loading"){
+    return <FullScreenSpinner/>
+  }
 
   return (
     <div className="p-4" dir="rtl">

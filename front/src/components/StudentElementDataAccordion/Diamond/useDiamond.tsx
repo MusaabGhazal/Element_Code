@@ -1,37 +1,46 @@
-// import { google } from "googleapis";
-// import credentials from "../../../../credentials.json" with { type: "json" };
+import { useEffect, useState } from "react";
+import { ElementsServices } from "../elementsServices";
 
-// export async function getSheetData() {
-//   // Authenticate with object syntax
-//   const auth = new google.auth.JWT({
-//     email: credentials.client_email,
-//     key: credentials.private_key,
-//     scopes: ["https://www.googleapis.com/auth/spreadsheets.readonly"],
-//   });
+export function useDiamond(){
 
-//   const sheets = google.sheets({ version: "v4", auth });
+  const [loadingState, setLoadingState] = useState<string>()
+  const [diamondData, setDiamondData] = useState<any>()
+  const fetchDiamondData = async () => {
+    setLoadingState("loading");
+    await ElementsServices.getDiamondElement()
+      .then((value) => {
+        setLoadingState("success");
+        setDiamondData(value);
+      })
+      .catch((error) => {
+        setLoadingState("error");
+        console.log("error", error)
+      });
+  };
+  const addStudentData = async (name: string, grade: string) => {
+  setLoadingState("loading");
+  await ElementsServices.addStudent(name, grade)
+    .then((value) => {
+      setLoadingState("success");
+      console.log("Student added:", value);
+      // optionally refresh the students list after adding
+      // fetchDiamondData();
+    })
+    .catch((error) => {
+      setLoadingState("error");
+      console.log("error", error);
+    });
+};
 
-//   // Replace with your actual spreadsheet ID
-//   const spreadsheetId = "1NotZGTT4mTKka5-xuT4wrQ23Ys8jl3YatFVdWfEli48";
-//   const range = "Students!A:B";
+    useEffect(() => {
+    fetchDiamondData();
+  }, []);
 
-//   try {
-//     const res = await sheets.spreadsheets.values.get({
-//       spreadsheetId,
-//       range,
-//     });
-
-//     const rows = res.data.values;
-//     if (!rows || rows.length === 0) {
-//       console.log("No data found.");
-//       return;
-//     }
-
-//     console.log("Data from sheet:");
-//     rows.forEach((row) => console.log(row));
-//   } catch (err) {
-//     console.error("Error fetching sheet data:", err);
-//   }
-// }
-
-// getSheetData();
+return {
+  loadingState,
+  setLoadingState, 
+  diamondData, 
+  setDiamondData,
+  addStudentData,
+}
+}  

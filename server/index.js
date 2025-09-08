@@ -5,7 +5,7 @@ import credentials from "../front/credentials.json" with { type: "json" }; // �
 
 const app = express();
 app.use(cors({ origin: "http://localhost:5173" }));
-app.use(express.json()); // ✅ Needed to read JSON body
+app.use(express.json());
 
 // Spreadsheet details
 const SPREADSHEET_ID = "1NotZGTT4mTKka5-xuT4wrQ23Ys8jl3YatFVdWfEli48";
@@ -44,15 +44,10 @@ async function addRowToSheet(row) {
     range: RANGE,
     valueInputOption: "USER_ENTERED",
     requestBody: {
-      values: [row], // ✅ new row as array
+      values: [row], 
     },
   });
 }
-
-// Example endpoint
-app.get("/api/hello", (req, res) => {
-  res.json({ message: "Hello from Node backend!" });
-});
 
 // ✅ Get students
 app.get("/api/students", async (req, res) => {
@@ -74,7 +69,7 @@ app.post("/api/students", async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
-    await addRowToSheet([name, grade]); // 👈 Push as row
+    await addRowToSheet([name, grade]);
 
     res.json({ message: "Student added successfully" });
   } catch (error) {

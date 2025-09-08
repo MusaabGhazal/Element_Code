@@ -19,17 +19,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const login = async (
     username?: string,
     password?: string,
-    remember?: boolean
   ) => {
-    if (username && password && remember !== undefined) {
+    if (username && password !== undefined) {
       const data = new URLSearchParams();
       data.append("grant_type", "password");
       data.append("username", username);
       data.append("password", password);
-      data.append(
-        "scope",
-        "sdk_backoffice fpt_backoffice scoring_rules_management alphas_backoffice"
-      );
       await httpClient
         .post(
           `${
